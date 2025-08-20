@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:lottie/lottie.dart';
 import 'package:sky_cast_weather/common/assets_string.dart';
+import 'package:sky_cast_weather/common/extension.dart';
 
 class CommonDialog extends StatelessWidget {
   final String message;
@@ -23,6 +24,7 @@ class CommonDialog extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return AlertDialog(
+      backgroundColor: Colors.white,
       shape: RoundedRectangleBorder(
         borderRadius: BorderRadius.circular(16),
       ),
@@ -31,38 +33,42 @@ class CommonDialog extends StatelessWidget {
         width: 100,
         child: Lottie.asset(lottie),
       ),
-      content: Text(
-        message,
-        textAlign: TextAlign.center,
-        style: const TextStyle(
-          fontWeight: FontWeight.bold,
-          fontSize: 14,
-        ),
-      ),
-      actions: [
-        if (onCancel != null)
-          TextButton(
-            onPressed: () {
-              Navigator.of(context).pop();
-              if (onCancel != null) onCancel!();
-            },
-            child: Text(cancelText),
-          ),
-        InkWell(
-          onTap: () {
-            if (onConfirm != null) onConfirm!();
-          },
-          child: Container(
-            decoration: BoxDecoration(
-                borderRadius: BorderRadius.circular(4),
-                border: Border.all(width: 1, color: Colors.black)),
-            child: Padding(
-              padding: const EdgeInsets.all(8.0),
-              child: Text(confirmText),
+      content: Column(
+        mainAxisSize: MainAxisSize.min,
+        children: [
+          Text(
+            message,
+            textAlign: TextAlign.center,
+            style: const TextStyle(
+              fontWeight: FontWeight.bold,
+              color: Colors.black,
+              fontSize: 14,
             ),
           ),
-        ),
-      ],
+          20.vGap,
+          InkWell(
+            onTap: () {
+              onConfirm!();
+            },
+            child: Container(
+              width: double.infinity,
+              decoration: BoxDecoration(
+                  color: Colors.black,
+                  borderRadius: BorderRadius.circular(20),
+                  border: Border.all(width: 1, color: Colors.black)),
+              child: const Center(
+                child: Padding(
+                  padding: EdgeInsets.all(12),
+                  child: Text(
+                    "Retry",
+                    style: TextStyle(color: Colors.white),
+                  ),
+                ),
+              ),
+            ),
+          )
+        ],
+      ),
     );
   }
 }

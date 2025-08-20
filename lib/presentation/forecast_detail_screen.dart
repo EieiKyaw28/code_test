@@ -1,0 +1,101 @@
+import 'package:flutter/material.dart';
+import 'package:flutter_riverpod/flutter_riverpod.dart';
+
+import 'package:sky_cast_weather/presentation/widget/async_value_widget.dart';
+import 'package:sky_cast_weather/presentation/widget/forecast_detail_card.dart';
+import 'package:sky_cast_weather/provider/weather_api_providers.dart';
+import 'package:sky_cast_weather/theme/weather_theme.dart';
+
+class ForecastDetailScreen extends ConsumerStatefulWidget {
+  const ForecastDetailScreen(
+      {super.key, required this.location, required this.isCelcius});
+  final String location;
+  final bool isCelcius;
+
+  @override
+  ConsumerState<ForecastDetailScreen> createState() =>
+      _ForecastDetailScreenState();
+}
+
+class _ForecastDetailScreenState extends ConsumerState<ForecastDetailScreen> {
+  int selectedIndex = -1;
+
+  @override
+  void dispose() {
+    super.dispose();
+  }
+
+  @override
+  Widget build(BuildContext context) {
+    final weatherTheme = Theme.of(context).extension<WeatherTheme>()!;
+
+    return Scaffold(
+        backgroundColor: Colors.white,
+        appBar: AppBar(
+          automaticallyImplyLeading: false,
+          backgroundColor: Colors.white,
+          leading: InkWell(
+            onTap: () {
+              Navigator.pop(context);
+            },
+            child: const Icon(
+              Icons.arrow_back,
+              color: Colors.black,
+            ),
+          ),
+          title: const Text(
+            "Weekly Forecast",
+            style: TextStyle(color: Colors.black, fontSize: 16),
+          ),
+        ),
+        body: SafeArea(
+          child: Stack(
+            children: [
+              SizedBox(
+                height: double.infinity,
+                child: Image.asset(
+                  weatherTheme.backgroundImage ?? "",
+                  fit: BoxFit.fitHeight,
+                ),
+              ),
+              AsyncValueWidget(
+                  onConfirm: () {
+                    ref.invalidate(searchCitiesProvider);
+                  },
+                  data: ref.watch(cityWeatherForecastProvider(widget.location)),
+                  child: (data) {
+                    return CustomScrollView(
+                      slivers: [
+                        SliverPadding(
+                          padding: const EdgeInsets.all(16.0),
+                          sliver: SliverList(
+                            delegate: SliverChildBuilderDelegate(
+                              (context, index) {
+                                return Padding(
+                                    padding: const EdgeInsets.only(bottom: 6),
+                                    child: SizedBox(
+                                        child: ForecastDetailCard(
+                                      isCelcius: widget.isCelcius,
+                                      selectedIndex: index,
+                                      isSelected: selectedIndex == index,
+                                      onTap: () {
+                                        setState(() {
+                                          selectedIndex = index;
+                                        });
+                                      },
+                                      forecast:
+                                          data.forecast!.forecastday![index],
+                                    )));
+                              },
+                              childCount: data.forecast?.forecastday?.length,
+                            ),
+                          ),
+                        ),
+                      ],
+                    );
+                  }),
+            ],
+          ),
+        ));
+  }
+}

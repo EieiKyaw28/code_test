@@ -28,7 +28,7 @@ class _SearchScreenState extends ConsumerState<SearchScreen> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-        backgroundColor: Colors.white,
+        backgroundColor: Colors.white70,
         appBar: AppBar(
           automaticallyImplyLeading: false,
           backgroundColor: Colors.black,
@@ -92,11 +92,13 @@ class _SearchScreenState extends ConsumerState<SearchScreen> {
                                   },
                                   child: Container(
                                     decoration: BoxDecoration(
-                                        borderRadius: BorderRadius.circular(6),
-                                        border: Border.all(
-                                          width: 1,
-                                          color: Colors.grey,
-                                        )),
+                                      color: Colors.white,
+                                      borderRadius: BorderRadius.circular(6),
+                                      border: Border.all(
+                                        width: 1,
+                                        color: Colors.white,
+                                      ),
+                                    ),
                                     child: Padding(
                                       padding: const EdgeInsets.all(8.0),
                                       child: Row(
@@ -106,20 +108,14 @@ class _SearchScreenState extends ConsumerState<SearchScreen> {
                                           Text(
                                             city.name ?? '-',
                                             style: const TextStyle(
+                                              fontWeight: FontWeight.bold,
                                               fontSize: 14,
                                               color: Colors.black,
-                                              shadows: [
-                                                Shadow(
-                                                  offset: Offset(1, 1),
-                                                  blurRadius: 2.0,
-                                                  color: Colors.grey,
-                                                ),
-                                              ],
                                             ),
                                           ),
                                           const Icon(
                                             Icons.arrow_forward,
-                                            color: Colors.grey,
+                                            color: Colors.black,
                                           )
                                         ],
                                       ),

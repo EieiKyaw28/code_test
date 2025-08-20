@@ -19,7 +19,7 @@ class SessionServiceImpl implements SessionService {
   @override
   Future<CustomResponse> get(String url, {Map<String, String>? headers}) async {
     try {
-      final response = await dio.get(url);
+      final response = await dio.get(url).timeout(const Duration(seconds: 20));
 
       log(" url : $url\nresponse: ${response.data}\nstatusCode: ${response.statusCode}");
 
@@ -44,15 +44,17 @@ class SessionServiceImpl implements SessionService {
       } else if (dioException.type == DioExceptionType.connectionError) {
         log("Connection error: $url");
         throw NoInternetConnectionException();
-      } else if (dioException.type == DioExceptionType.unknown &&
-          dioException.error is SocketException) {
-        log("SocketException: $url");
-        throw NoInternetConnectionException();
       } else {
         log("Dio error: ${dioException.message}");
         throw CustomException(dioException.message ?? 'Unknown Dio error',
             statusCode: dioException.response?.statusCode);
       }
+    } on TimeoutException catch (_) {
+      log("Timeout exception: $url");
+      throw ConnectionTimeoutException();
+    } on SocketException catch (_) {
+      log("Timeout exception: $url");
+      throw NoInternetConnectionException();
     } catch (e, st) {
       log("Unexpected error: $e $st");
       throw CustomException("An unexpected error occurred");

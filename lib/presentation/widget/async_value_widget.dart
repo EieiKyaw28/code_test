@@ -46,45 +46,41 @@ class AsyncValueWidget<T> extends StatelessWidget {
 
 class _CommonErrorWidget extends StatelessWidget {
   const _CommonErrorWidget(
-      {super.key, required this.exception, required this.onRetry});
+      { required this.exception, required this.onRetry});
 
   final CustomException exception;
   final Function()? onRetry;
 
   @override
   Widget build(BuildContext context) {
-    switch (exception) {
-      case NoInternetConnectionException:
-        return CommonDialog(
-          lottie: AssetsString.noInternet,
-          message: exception.message,
-          confirmText: "Retry",
-          onConfirm: onRetry,
-        );
-
-      case InternalServerErrorException:
-        return CommonDialog(
-          lottie: AssetsString.error,
-          message: exception.message,
-          confirmText: "Retry",
-          onConfirm: onRetry,
-        );
-
-      case ConnectionTimeoutException:
-        return CommonDialog(
-          lottie: AssetsString.error,
-          message: exception.message,
-          confirmText: "Retry",
-          onConfirm: onRetry,
-        );
-
-      default:
-        return CommonDialog(
-          lottie: AssetsString.error,
-          message: exception.message,
-          confirmText: "OK",
-          onConfirm: () => Navigator.of(context).pop(),
-        );
+    if (exception is NoInternetConnectionException) {
+      return CommonDialog(
+      lottie: AssetsString.noInternet,
+      message: exception.message,
+      confirmText: "Retry",
+      onConfirm: onRetry,
+      );
+    } else if (exception is InternalServerErrorException) {
+      return CommonDialog(
+      lottie: AssetsString.error,
+      message: exception.message,
+      confirmText: "Retry",
+      onConfirm: onRetry,
+      );
+    } else if (exception is ConnectionTimeoutException) {
+      return CommonDialog(
+      lottie: AssetsString.noInternet,
+      message: exception.message,
+      confirmText: "Retry",
+      onConfirm: onRetry,
+      );
+    } else {
+      return CommonDialog(
+      lottie: AssetsString.error,
+      message: exception.message,
+      confirmText: "OK",
+      onConfirm: () => Navigator.of(context).pop(),
+      );
     }
   }
 }

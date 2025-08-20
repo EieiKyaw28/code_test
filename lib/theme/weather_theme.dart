@@ -151,10 +151,9 @@ enum WeatherCategory {
   extreme,
 }
 
-final currentWeatherTheme = ValueNotifier<WeatherTheme>(sunnyTheme);
+final currentWeatherTheme = ValueNotifier<WeatherTheme>(rainyTheme);
 
 void updateWeatherTheme(String condition) {
-  log("Condition : $condition");
   condition = condition.toLowerCase();
   if (condition.contains(WeatherCategory.clear.name)) {
     currentWeatherTheme.value = sunnyTheme;
@@ -167,6 +166,6 @@ void updateWeatherTheme(String condition) {
       condition.contains(WeatherCategory.partlyCloudy.name)) {
     currentWeatherTheme.value = cloudyTheme;
   } else {
-    currentWeatherTheme.value = defaultTheme;
+    currentWeatherTheme.value = rainyTheme;
   }
 }

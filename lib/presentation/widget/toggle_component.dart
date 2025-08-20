@@ -44,7 +44,6 @@ class ToggleComponent extends StatelessWidget {
 
 class _DegreeComponent extends StatelessWidget {
   const _DegreeComponent({
-    super.key,
     required this.onTap,
     required this.value,
     required this.isSelected,

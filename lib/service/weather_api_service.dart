@@ -20,7 +20,7 @@ class WeatherApiService {
       final response = await session.get(url);
 
       final data = response.data;
-     
+
       return cityDataFromJson(json.encode(data));
     } catch (e, st) {
       log("Search Cities Error: $e $st");
@@ -29,9 +29,14 @@ class WeatherApiService {
   }
 
   //! by geolocation or city name
-  Future<WeatherResponse> fetchCityWeatherDetail({required double? lat, required double? lon, required String? city}) async {
+  Future<WeatherResponse> fetchCityWeatherDetail(
+      {required double? lat,
+      required double? lon,
+      required String? city}) async {
     try {
-      final url = city != null ? '$baseUrl/current.json?key=$kApiKey&q=$city' : '$baseUrl/current.json?key=$kApiKey&q=$lat,$lon';
+      final url = city != null
+          ? '$baseUrl/current.json?key=$kApiKey&q=$city'
+          : '$baseUrl/current.json?key=$kApiKey&q=$lat,$lon';
       final response = await session.get(url);
 
       final data = response.data;
@@ -42,9 +47,9 @@ class WeatherApiService {
     }
   }
 
-
   //! 5 days forecast
-  Future<WeatherResponse> fetchCityWeatherForecast({required String city}) async {
+  Future<WeatherResponse> fetchCityWeatherForecast(
+      {required String city}) async {
     try {
       final url = '$baseUrl/forecast.json?key=$kApiKey&q=$city&days=5';
       final response = await session.get(url);

@@ -1,9 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_animate/flutter_animate.dart';
-import 'package:sky_cast_weather/common/assets_string.dart';
 import 'package:sky_cast_weather/common/common_text_style.dart';
 import 'package:sky_cast_weather/common/extension.dart';
-import 'package:sky_cast_weather/theme/weather_theme.dart';
 
 class WeatherInfoCard extends StatelessWidget {
   final String label;
@@ -26,18 +24,41 @@ class WeatherInfoCard extends StatelessWidget {
         children: [
           Image.asset(
             image,
-            color: Colors.white,
+            color: Colors.black,
             width: 30,
             height: 30,
           )
               .animate(onPlay: (controller) => controller.repeat(reverse: true))
               .slideX(begin: -0.2, end: 0.2, duration: 1.5.seconds),
           8.vGap,
-          Text(value, style: CommonTextStyle.text),
+          Text(value,
+              style: const TextStyle(
+                fontWeight: FontWeight.bold,
+                fontSize: 14,
+                color: Colors.black,
+                shadows: [
+                  Shadow(
+                    offset: Offset(1, 1),
+                    blurRadius: 2.0,
+                    color: Colors.grey,
+                  ),
+                ],
+              )),
           5.vGap,
           Text(
             label,
-            style: CommonTextStyle.smallText,
+            style: const TextStyle(
+              fontSize: 12,
+              color: Colors.black,
+              fontWeight: FontWeight.bold,
+              shadows: [
+                Shadow(
+                  offset: Offset(1, 1),
+                  blurRadius: 2.0,
+                  color: Colors.grey,
+                ),
+              ],
+            ),
           ),
         ],
       ),

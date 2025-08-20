@@ -1,20 +1,21 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_animate/flutter_animate.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
+import 'package:permission_handler/permission_handler.dart';
 import 'package:sky_cast_weather/common/assets_string.dart';
 import 'package:sky_cast_weather/common/common_text_style.dart';
 import 'package:sky_cast_weather/common/extension.dart';
 import 'package:sky_cast_weather/domain/common_query_model.dart';
+import 'package:sky_cast_weather/presentation/forecast_detail_screen.dart';
 import 'package:sky_cast_weather/presentation/search_sceen.dart';
 import 'package:sky_cast_weather/presentation/widget/async_value_widget.dart';
 import 'package:sky_cast_weather/presentation/widget/catched_network_image.dart';
-import 'package:sky_cast_weather/presentation/widget/common_dialog.dart';
+import 'package:sky_cast_weather/presentation/widget/location_permission_dialog.dart';
 import 'package:sky_cast_weather/presentation/widget/toggle_component.dart';
 import 'package:sky_cast_weather/presentation/widget/weather_info_card.dart';
 import 'package:sky_cast_weather/presentation/widget/weekly_forecast_card.dart';
 import 'package:sky_cast_weather/provider/weather_api_providers.dart';
 import 'package:sky_cast_weather/theme/weather_theme.dart';
-import 'package:sky_cast_weather/theme_data.dart';
 import 'package:lottie/lottie.dart';
 
 import '../service/location_service.dart';
@@ -39,13 +40,45 @@ class _CityDetailScreenState extends ConsumerState<CityDetailScreen> {
   int selectedIndex = 0;
   bool isCelsius = true;
 
-  void getCurrentLatLon() async {
+  void getCurrentLatLon(BuildContext context) async {
+    var status = await Permission.location.status;
     if (widget.cityName == null) {
-      final position = await LocationService().getCurrentLocation();
-      setState(() {
-        lat = position.latitude;
-        lon = position.longitude;
-      });
+      if (status.isGranted) {
+        final position = await LocationService().getCurrentLocation(context);
+        setState(() {
+          lat = position.latitude;
+          lon = position.longitude;
+        });
+      } else {
+        showDialog(
+            // ignore: use_build_context_synchronously
+            context: context,
+            builder: (context) {
+              return LocationPermissionDialog(
+                onAllow: () async {
+                  final position =
+                      await LocationService().getCurrentLocation(context);
+                  setState(() {
+                    lat = position.latitude;
+                    lon = position.longitude;
+                  });
+                  if (lat != null && lon != null) {
+                    if (mounted) {
+                      Navigator.pop(context);
+                    }
+                  }
+                },
+                onDeny: () {
+                  Navigator.push(
+                    context,
+                    MaterialPageRoute(
+                      builder: (context) => const SearchScreen(),
+                    ),
+                  );
+                },
+              );
+            });
+      }
     }
   }
 
@@ -65,8 +98,10 @@ class _CityDetailScreenState extends ConsumerState<CityDetailScreen> {
   @override
   void initState() {
     super.initState();
-    getCurrentLatLon();
-    fetchWeather();
+    WidgetsBinding.instance.addPostFrameCallback((_) {
+      getCurrentLatLon(context);
+      fetchWeather();
+    });
   }
 
   @override
@@ -204,7 +239,7 @@ class _CityDetailScreenState extends ConsumerState<CityDetailScreen> {
                                   Container(
                                     decoration: BoxDecoration(
                                         borderRadius: BorderRadius.circular(10),
-                                        color: Colors.black),
+                                        color: Colors.white),
                                     child: Row(
                                       mainAxisAlignment:
                                           MainAxisAlignment.spaceEvenly,
@@ -234,9 +269,32 @@ class _CityDetailScreenState extends ConsumerState<CityDetailScreen> {
                                   const SizedBox(height: 20),
 
                                   // Weekly forecast (Animated)
-                                  const Text(
-                                    "Weekly forecast",
-                                    style: CommonTextStyle.weatherSubtitle,
+                                  Row(
+                                    mainAxisAlignment:
+                                        MainAxisAlignment.spaceBetween,
+                                    children: [
+                                      const Text(
+                                        "Weekly forecast",
+                                        style: CommonTextStyle.weatherSubtitle,
+                                      ),
+                                      InkWell(
+                                        onTap: () {
+                                          Navigator.push(
+                                              context,
+                                              MaterialPageRoute(
+                                                  builder: (context) =>
+                                                      ForecastDetailScreen(
+                                                        isCelcius: isCelsius,
+                                                        location: data
+                                                            .location!.name!,
+                                                      )));
+                                        },
+                                        child: const Icon(
+                                          Icons.arrow_forward,
+                                          color: Colors.white,
+                                        ),
+                                      )
+                                    ],
                                   ),
                                   10.vGap,
                                   if (data.location?.name != null) ...[
@@ -248,7 +306,7 @@ class _CityDetailScreenState extends ConsumerState<CityDetailScreen> {
                                           final forecasts =
                                               data.forecast?.forecastday ?? [];
                                           return SizedBox(
-                                            height: 100,
+                                            height: 130,
                                             child: ListView.builder(
                                               scrollDirection: Axis.horizontal,
                                               itemCount: forecasts.length,
