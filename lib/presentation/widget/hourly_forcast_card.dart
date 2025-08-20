@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:sky_cast_weather/common/common_text_style.dart';
 
 import 'package:sky_cast_weather/common/extension.dart';
 import 'package:sky_cast_weather/domain/city_weather_forecast_model.dart'
@@ -32,18 +33,9 @@ class HourlyForcastCard extends StatelessWidget {
         mainAxisAlignment: MainAxisAlignment.center,
         children: [
           Text(isCelsius ? "${forecast.tempC}°C" : "${forecast.tempF}°F",
-              style: const TextStyle(
-                fontWeight: FontWeight.bold,
-                fontSize: 12,
-                color: Colors.white,
-              )),
-          5.vGap,
-          Text(time,
-              style: const TextStyle(
-                fontWeight: FontWeight.bold,
-                fontSize: 12,
-                color: Colors.white,
-              )),
+              style: CommonTextStyle.text),
+          2.vGap,
+          Text(time, style: CommonTextStyle.smallText),
         ],
       ),
     );

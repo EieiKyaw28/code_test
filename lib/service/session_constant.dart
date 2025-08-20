@@ -1,4 +1,4 @@
-const kApiKey = '04602c3143d140a59f2152316251808';
+const kApiKey = '34f96d196ed84cc4919122208252008';
 const baseUrl = "https://api.weatherapi.com/v1";
 
 const kHeader = {

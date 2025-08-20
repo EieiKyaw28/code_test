@@ -1,4 +1,3 @@
-import 'dart:developer';
 import 'package:flutter/material.dart';
 import 'package:riverpod/riverpod.dart';
 import 'package:sky_cast_weather/common/assets_string.dart';
@@ -18,15 +17,13 @@ class AsyncValueWidget<T> extends StatelessWidget {
   final Widget Function(T) child;
   final Widget? loadingChild;
   final Widget Function()? errorChild;
-  final Function()? onConfirm;
+  final Future Function()? onConfirm;
 
   @override
   Widget build(BuildContext context) {
     return data.when(
         data: (data) => child(data),
         error: (e, s) {
-          log("async value widget error ->  ${e.toString()} error runtimetype > ${e.runtimeType}   stack trace -> ${s.toString()}");
-
           return errorChild != null
               ? errorChild!()
               : _CommonErrorWidget(
@@ -45,41 +42,40 @@ class AsyncValueWidget<T> extends StatelessWidget {
 }
 
 class _CommonErrorWidget extends StatelessWidget {
-  const _CommonErrorWidget(
-      { required this.exception, required this.onRetry});
+  const _CommonErrorWidget({required this.exception, required this.onRetry});
 
   final CustomException exception;
-  final Function()? onRetry;
+  final Future Function()? onRetry;
 
   @override
   Widget build(BuildContext context) {
     if (exception is NoInternetConnectionException) {
       return CommonDialog(
-      lottie: AssetsString.noInternet,
-      message: exception.message,
-      confirmText: "Retry",
-      onConfirm: onRetry,
+        lottie: AssetsString.noInternet,
+        message: exception.message,
+        confirmText: "Retry",
+        onConfirm: onRetry,
       );
     } else if (exception is InternalServerErrorException) {
       return CommonDialog(
-      lottie: AssetsString.error,
-      message: exception.message,
-      confirmText: "Retry",
-      onConfirm: onRetry,
+        lottie: AssetsString.error,
+        message: exception.message,
+        confirmText: "Retry",
+        onConfirm: onRetry,
       );
     } else if (exception is ConnectionTimeoutException) {
       return CommonDialog(
-      lottie: AssetsString.noInternet,
-      message: exception.message,
-      confirmText: "Retry",
-      onConfirm: onRetry,
+        lottie: AssetsString.noInternet,
+        message: exception.message,
+        confirmText: "Retry",
+        onConfirm: onRetry,
       );
     } else {
       return CommonDialog(
-      lottie: AssetsString.error,
-      message: exception.message,
-      confirmText: "OK",
-      onConfirm: () => Navigator.of(context).pop(),
+        lottie: AssetsString.error,
+        message: exception.message,
+        confirmText: "Retry",
+        onConfirm: onRetry,
       );
     }
   }

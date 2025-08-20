@@ -2,7 +2,6 @@ import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:sky_cast_weather/presentation/city_detail_screen.dart';
 import 'package:sky_cast_weather/theme/weather_theme.dart';
-import 'package:sky_cast_weather/theme_data.dart';
 
 void main() {
   WidgetsFlutterBinding.ensureInitialized();

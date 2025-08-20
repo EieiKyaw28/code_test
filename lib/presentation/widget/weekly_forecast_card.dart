@@ -21,7 +21,7 @@ class WeeklyForecastCard extends StatelessWidget {
     return Container(
       margin: const EdgeInsets.only(right: 12),
       padding: const EdgeInsets.all(10),
-      width: 100,
+      width: isDesktop ? 120 : 100,
       decoration: BoxDecoration(
         borderRadius: BorderRadius.circular(10),
         border: Border.all(

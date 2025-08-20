@@ -1,7 +1,6 @@
-import 'dart:developer';
-
 import 'package:flutter/material.dart';
 import 'package:sky_cast_weather/common/assets_string.dart';
+import 'package:sky_cast_weather/common/extension.dart';
 
 class WeatherTheme extends ThemeExtension<WeatherTheme> {
   final String? backgroundImage;
@@ -35,7 +34,7 @@ final defaultTheme = WeatherTheme(
 );
 
 final sunnyTheme = WeatherTheme(
-  backgroundImage: AssetsString.sunny,
+  backgroundImage: isMobile ? AssetsString.sunny : AssetsString.sunnyDk,
   colorScheme: ColorScheme.fromSeed(
     seedColor: Colors.amber,
     brightness: Brightness.light,
@@ -43,7 +42,7 @@ final sunnyTheme = WeatherTheme(
 );
 
 final rainyTheme = WeatherTheme(
-  backgroundImage: AssetsString.rain,
+  backgroundImage: isMobile ? AssetsString.rain : AssetsString.rainyDk,
   colorScheme: ColorScheme.fromSeed(
     seedColor: Colors.blueGrey,
     brightness: Brightness.dark,
@@ -57,7 +56,7 @@ final mistTheme = WeatherTheme(
   ),
 );
 final cloudyTheme = WeatherTheme(
-  backgroundImage: AssetsString.cloudy,
+  backgroundImage: isMobile ? AssetsString.cloudy : AssetsString.cloudyDk,
   colorScheme: ColorScheme.fromSeed(
     seedColor: Colors.blue,
     brightness: Brightness.light,

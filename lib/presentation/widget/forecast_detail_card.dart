@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_animate/flutter_animate.dart';
 import 'package:intl/intl.dart';
 import 'package:sky_cast_weather/common/common_text_style.dart';
 import 'package:sky_cast_weather/common/extension.dart';
@@ -48,7 +49,11 @@ class ForecastDetailCard extends StatelessWidget {
                   style: CommonTextStyle.weatherSubtitle),
               CatchedNetworkImage(
                 url: forecast.day?.condition?.icon ?? "",
-              ),
+              ).animate(onPlay: (c) {
+                if (isSelected) {
+                  c.repeat(reverse: true);
+                }
+              }).fade(duration: isSelected ? 1.seconds : 0.seconds),
             ],
           ),
           Row(

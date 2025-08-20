@@ -10,6 +10,11 @@ class AssetsString {
   static const rain = "assets/images/rain.jpg";
   static const clear = "assets/images/clear.png";
   static const cloudy = "assets/images/cloudy.png";
+  static const cloudyDk = "assets/images/cloudy_desktop.jpg";
+  static const rainyDk = "assets/images/rain_desktop.jpg";
+
+  static const snowDk = "assets/images/snow_desktop.jpg";
+  static const sunnyDk = "assets/images/sunny_desktop.jpg";
 
   //lottie
   static const loading = "assets/jsons/weather_loading.json";
@@ -19,4 +24,5 @@ class AssetsString {
   static const error = "assets/jsons/error.json";
 
   static const location = "assets/jsons/location.json";
+  static const noData = "assets/jsons/no_data.json";
 }

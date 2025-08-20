@@ -19,9 +19,7 @@ class SessionServiceImpl implements SessionService {
   @override
   Future<CustomResponse> get(String url, {Map<String, String>? headers}) async {
     try {
-      final response = await dio.get(url).timeout(const Duration(seconds: 20));
-
-      log(" url : $url\nresponse: ${response.data}\nstatusCode: ${response.statusCode}");
+      final response = await dio.get(url).timeout(const Duration(seconds: 30));
 
       final customeResponse = CustomResponse(
         data: response.data,
@@ -29,34 +27,29 @@ class SessionServiceImpl implements SessionService {
       );
 
       return _handleResponse(customeResponse, url);
+    } on TimeoutException catch (_) {
+      throw ConnectionTimeoutException();
+    } on SocketException catch (_) {
+      throw NoInternetConnectionException();
     } on DioException catch (_) {
       final dioException = _;
+
+      log(" what error is it? error > ${dioException.error} ${dioException.type} ");
 
       if (dioException.type == DioExceptionType.connectionTimeout ||
           dioException.type == DioExceptionType.sendTimeout ||
           dioException.type == DioExceptionType.receiveTimeout) {
-        log("Connection timeout: $url");
         throw ConnectionTimeoutException();
       } else if (dioException.type == DioExceptionType.badResponse) {
-        log("Bad response: ${dioException.response?.statusCode} - ${dioException.response?.data}");
         throw CustomException(dioException.message ?? '',
             statusCode: dioException.response?.statusCode);
       } else if (dioException.type == DioExceptionType.connectionError) {
-        log("Connection error: $url");
         throw NoInternetConnectionException();
       } else {
-        log("Dio error: ${dioException.message}");
         throw CustomException(dioException.message ?? 'Unknown Dio error',
             statusCode: dioException.response?.statusCode);
       }
-    } on TimeoutException catch (_) {
-      log("Timeout exception: $url");
-      throw ConnectionTimeoutException();
-    } on SocketException catch (_) {
-      log("Timeout exception: $url");
-      throw NoInternetConnectionException();
-    } catch (e, st) {
-      log("Unexpected error: $e $st");
+    } catch (e) {
       throw CustomException("An unexpected error occurred");
     }
   }

@@ -14,7 +14,7 @@ class ToggleComponent extends StatelessWidget {
   Widget build(BuildContext context) {
     return Container(
       decoration: BoxDecoration(
-          border: Border.all(color: Colors.grey, width: 1),
+          border: Border.all(color: Colors.white, width: 1),
           color: Colors.transparent,
           borderRadius: BorderRadius.circular(5)),
       child: Padding(

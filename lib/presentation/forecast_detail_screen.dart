@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
+import 'package:sky_cast_weather/domain/common_query_model.dart';
 
 import 'package:sky_cast_weather/presentation/widget/async_value_widget.dart';
 import 'package:sky_cast_weather/presentation/widget/forecast_detail_card.dart';
@@ -8,8 +9,12 @@ import 'package:sky_cast_weather/theme/weather_theme.dart';
 
 class ForecastDetailScreen extends ConsumerStatefulWidget {
   const ForecastDetailScreen(
-      {super.key, required this.location, required this.isCelcius});
-  final String location;
+      {super.key,
+      required this.lat,
+      required this.lon,
+      required this.isCelcius});
+  final double lat;
+  final double lon;
   final bool isCelcius;
 
   @override
@@ -59,10 +64,13 @@ class _ForecastDetailScreenState extends ConsumerState<ForecastDetailScreen> {
                 ),
               ),
               AsyncValueWidget(
-                  onConfirm: () {
-                    ref.invalidate(searchCitiesProvider);
+                  onConfirm: () async {
+                    await ref.read(cityWeatherForecastProvider(
+                        CommonQueryModel(lat: widget.lat, lon: widget.lon))
+                        .future);
                   },
-                  data: ref.watch(cityWeatherForecastProvider(widget.location)),
+                  data: ref.watch(cityWeatherForecastProvider(
+                      CommonQueryModel(lat: widget.lat, lon: widget.lon))),
                   child: (data) {
                     return CustomScrollView(
                       slivers: [

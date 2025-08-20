@@ -19,18 +19,25 @@ class WeatherRepository {
     }
   }
 
-  Future<WeatherResponse> fetchCityWeatherDetail({required double? lat, required double? lon, required String? city}) async {
+  Future<WeatherResponse> fetchCityWeatherDetail(
+      {required double lat,
+      required double lon,}) async {
     try {
-      final response = await weatherApiService.fetchCityWeatherDetail(city: city, lat: lat, lon: lon);
+      final response = await weatherApiService.fetchCityWeatherDetail(
+           lat: lat, lon: lon,);
       return response;
     } catch (e) {
       rethrow;
     }
   }
 
-   Future<WeatherResponse> fetchCityWeatherCast({required String city}) async {
+  Future<WeatherResponse> fetchCityWeatherCast({
+    required double? lat,
+    required double? lon,
+  }) async {
     try {
-      final response = await weatherApiService.fetchCityWeatherForecast(city: city);
+      final response =
+          await weatherApiService.fetchCityWeatherForecast(lat: lat, lon: lon);
       return response;
     } catch (e) {
       rethrow;
@@ -39,5 +46,6 @@ class WeatherRepository {
 }
 
 final weatherApiRepositoryProvider = Provider<WeatherRepository>(
-  (ref) => WeatherRepository(weatherApiService: ref.watch(weatherApiServiceProvider)),
+  (ref) => WeatherRepository(
+      weatherApiService: ref.watch(weatherApiServiceProvider)),
 );

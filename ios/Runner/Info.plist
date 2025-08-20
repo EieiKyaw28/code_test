@@ -14,6 +14,8 @@
 	<string>6.0</string>
 	<key>CFBundleName</key>
 	<string>sky_cast_weather</string>
+	<key>NSLocationWhenInUseUsageDescription</key>
+	<string>We use your location to show local weather information.</string>
 	<key>CFBundlePackageType</key>
 	<string>APPL</string>
 	<key>CFBundleShortVersionString</key>
