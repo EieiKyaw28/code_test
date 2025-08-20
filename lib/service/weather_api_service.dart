@@ -29,9 +29,10 @@ class WeatherApiService {
   }
 
   //! by geolocation or city name
-  Future<WeatherResponse> fetchCityWeatherDetail(
-      {required double lat,
-      required double lon,}) async {
+  Future<WeatherResponse> fetchCityWeatherDetail({
+    required double lat,
+    required double lon,
+  }) async {
     try {
       log("Lat Lon in fetchCityWeatherDetail : $lat, $lon");
 

@@ -90,11 +90,7 @@ class _SearchScreenState extends ConsumerState<SearchScreen> {
               ),
               if (searchController.text.isNotEmpty)
                 AsyncValueWidget(
-                    onConfirm: () async {
-
-                      await ref.read(searchCitiesProvider(
-                          CommonQueryModel(city: _searchText)).future);
-                    },
+                    
                     loadingChild: Center(
                       child: SizedBox(
                         height: 100,
@@ -181,10 +177,7 @@ class _SearchScreenState extends ConsumerState<SearchScreen> {
                     child: Lottie.asset(AssetsString.location),
                   )
                 : AsyncValueWidget(
-                    onConfirm: () async {
-                      await ref.read(searchCitiesProvider(
-                          CommonQueryModel(city: _searchText)).future);
-                    },
+                   
                     loadingChild: Center(
                       child: SizedBox(
                         height: 100,

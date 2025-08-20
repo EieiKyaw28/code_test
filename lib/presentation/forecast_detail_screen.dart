@@ -64,11 +64,6 @@ class _ForecastDetailScreenState extends ConsumerState<ForecastDetailScreen> {
                 ),
               ),
               AsyncValueWidget(
-                  onConfirm: () async {
-                    await ref.read(cityWeatherForecastProvider(
-                        CommonQueryModel(lat: widget.lat, lon: widget.lon))
-                        .future);
-                  },
                   data: ref.watch(cityWeatherForecastProvider(
                       CommonQueryModel(lat: widget.lat, lon: widget.lon))),
                   child: (data) {
@@ -81,8 +76,7 @@ class _ForecastDetailScreenState extends ConsumerState<ForecastDetailScreen> {
                               (context, index) {
                                 return Padding(
                                     padding: const EdgeInsets.only(bottom: 6),
-                                    child: SizedBox(
-                                        child: ForecastDetailCard(
+                                    child: ForecastDetailCard(
                                       isCelcius: widget.isCelcius,
                                       selectedIndex: index,
                                       isSelected: selectedIndex == index,
@@ -93,7 +87,7 @@ class _ForecastDetailScreenState extends ConsumerState<ForecastDetailScreen> {
                                       },
                                       forecast:
                                           data.forecast!.forecastday![index],
-                                    )));
+                                    ));
                               },
                               childCount: data.forecast?.forecastday?.length,
                             ),

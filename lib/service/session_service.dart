@@ -46,7 +46,7 @@ class SessionServiceImpl implements SessionService {
       } else if (dioException.type == DioExceptionType.connectionError) {
         throw NoInternetConnectionException();
       } else {
-        throw CustomException(dioException.message ?? 'Unknown Dio error',
+        throw CustomException(dioException.message ?? 'Something went wrong',
             statusCode: dioException.response?.statusCode);
       }
     } catch (e) {

@@ -1,3 +1,5 @@
+import 'dart:developer';
+
 import 'package:flutter/material.dart';
 import 'package:lottie/lottie.dart';
 import 'package:sky_cast_weather/common/extension.dart';
@@ -7,7 +9,7 @@ class CommonDialog extends StatefulWidget {
   final String confirmText;
   final String cancelText;
   final String lottie;
-  final Future Function()? onConfirm;
+  final VoidCallback? onConfirm;
   final VoidCallback? onCancel;
 
   const CommonDialog({
@@ -52,19 +54,25 @@ class _CommonDialogState extends State<CommonDialog> {
           ),
           20.vGap,
           InkWell(
-            onTap: isLoading ? null : () async {
-              setState(() => isLoading = true);
-              await widget.onConfirm!();
-              setState(() => isLoading = false);
-
-            },
+            onTap: isLoading
+                ? null
+                : () async {
+                    try {
+                      setState(() => isLoading = true);
+                      await Future.delayed(const Duration(seconds: 5));
+                      widget.onConfirm!();
+                      setState(() => isLoading = false);
+                    } catch (e) {
+                      setState(() => isLoading = false);
+                    }
+                  },
             child: Container(
               width: double.infinity,
               decoration: BoxDecoration(
                   color: Colors.black,
                   borderRadius: BorderRadius.circular(20),
                   border: Border.all(width: 1, color: Colors.black)),
-              child:   Center(
+              child: Center(
                 child: Padding(
                   padding: const EdgeInsets.all(12),
                   child: isLoading

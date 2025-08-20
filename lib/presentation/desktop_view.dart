@@ -114,11 +114,6 @@ class _CityDetailDesktopViewState extends ConsumerState<CityDetailDesktopView> {
                               padding: const EdgeInsets.all(10.0),
                               child: lat != null && lon != null
                                   ? AsyncValueWidget(
-                                      onConfirm: () async {
-                                        await ref.read(
-                                            cityWeatherDetailProvider(family)
-                                                .future);
-                                      },
                                       data: ref.watch(
                                           cityWeatherDetailProvider(family)),
                                       child: (data) {
@@ -255,12 +250,6 @@ class _CityDetailDesktopViewState extends ConsumerState<CityDetailDesktopView> {
                                                         cityWeatherForecastProvider(
                                                       family,
                                                     )),
-                                                    onConfirm: () async {
-                                                      await ref.read(
-                                                          cityWeatherDetailProvider(
-                                                                  family)
-                                                              .future);
-                                                    },
                                                     child: (data) {
                                                       final forecasts = data
                                                               .forecast
@@ -302,10 +291,11 @@ class _CityDetailDesktopViewState extends ConsumerState<CityDetailDesktopView> {
                                           ],
                                         );
                                       })
-                                  : SizedBox(
+                                  : const SizedBox(
                                       child: Center(
-                                        child:
-                                            Lottie.asset(AssetsString.loading),
+                                        child: CircularProgressIndicator(
+                                          color: Colors.white,
+                                        ),
                                       ),
                                     )),
                         ],
@@ -318,10 +308,6 @@ class _CityDetailDesktopViewState extends ConsumerState<CityDetailDesktopView> {
                         children: [
                           if (lat != null && lon != null) ...[
                             AsyncValueWidget(
-                                onConfirm: () async {
-                                  await ref.read(
-                                      searchCitiesProvider(family).future);
-                                },
                                 data: ref
                                     .watch(cityWeatherForecastProvider(family)),
                                 child: (data) {
