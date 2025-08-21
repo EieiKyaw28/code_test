@@ -1,5 +1,4 @@
 import 'dart:convert';
-import 'dart:developer';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:sky_cast_weather/domain/city_weather_forecast_model.dart';
 import 'package:sky_cast_weather/domain/search_cities_response.dart';
@@ -23,7 +22,6 @@ class WeatherApiService {
 
       return cityDataFromJson(json.encode(data));
     } catch (e, st) {
-      log("Search Cities Error: $e $st");
       rethrow;
     }
   }
@@ -34,15 +32,13 @@ class WeatherApiService {
     required double lon,
   }) async {
     try {
-      log("Lat Lon in fetchCityWeatherDetail : $lat, $lon");
 
       final url = '$baseUrl/current.json?key=$kApiKey&q=$lat,$lon';
       final response = await session.get(url);
 
       final data = response.data;
       return WeatherResponse.fromJson(data);
-    } catch (e, st) {
-      log("Fetch City Weather by Name Error: $e $st");
+    } catch (e) {
       rethrow;
     }
   }
@@ -53,15 +49,12 @@ class WeatherApiService {
     required double? lon,
   }) async {
     try {
-      log("Lat Lon in fetchCityWeatherForecast : $lat, $lon");
       final url = '$baseUrl/forecast.json?key=$kApiKey&q=$lat,$lon&days=5';
-      log(" fetchCityWeatherForecast url > $url  ");
       final response = await session.get(url);
 
       final data = response.data;
       return WeatherResponse.fromJsonForcecastOnly(data);
-    } catch (e, st) {
-      log("Fetch City Weather by Name Error: $e $st");
+    } catch (e) {
       rethrow;
     }
   }

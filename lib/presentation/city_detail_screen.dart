@@ -1,5 +1,3 @@
-import 'dart:developer';
-
 import 'package:flutter/material.dart';
 import 'package:flutter_animate/flutter_animate.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
@@ -107,7 +105,6 @@ class _CityDetailScreenState extends ConsumerState<CityDetailScreen> {
           lon = widget.cityData?.lon;
         });
 
-        log(" lat lon from widget data > $lat $lon");
       }
       getCurrentLatLon(context);
       fetchWeather();

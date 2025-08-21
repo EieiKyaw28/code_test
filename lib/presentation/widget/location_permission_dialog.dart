@@ -1,5 +1,3 @@
-import 'dart:developer';
-
 import 'package:flutter/material.dart';
 
 import 'package:sky_cast_weather/common/extension.dart';
@@ -16,7 +14,6 @@ class LocationPermissionDialog extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    log("Here");
     return AlertDialog(
       backgroundColor: Colors.white,
       shape: RoundedRectangleBorder(

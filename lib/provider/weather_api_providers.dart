@@ -1,5 +1,3 @@
-import 'dart:developer';
-
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:sky_cast_weather/domain/city_weather_forecast_model.dart';
 import 'package:sky_cast_weather/domain/common_query_model.dart';
@@ -23,7 +21,6 @@ final cityWeatherDetailProvider = FutureProvider.autoDispose
 final cityWeatherForecastProvider =
     FutureProvider.family<WeatherResponse, CommonQueryModel>(
         (ref, query) async {
-  log("Common Query in cityWeatherForecastProvider : ${query.lat} | ${query.lon} | ${query.city}");
 
   final weatherApiRepository = ref.watch(weatherApiRepositoryProvider);
   return weatherApiRepository.fetchCityWeatherCast(

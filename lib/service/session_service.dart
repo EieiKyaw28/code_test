@@ -1,5 +1,4 @@
 import 'dart:async';
-import 'dart:developer';
 import 'dart:io';
 import 'package:dio/dio.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
@@ -34,8 +33,6 @@ class SessionServiceImpl implements SessionService {
     } on DioException catch (_) {
       final dioException = _;
 
-      log(" what error is it? error > ${dioException.error} ${dioException.type} ");
-
       if (dioException.type == DioExceptionType.connectionTimeout ||
           dioException.type == DioExceptionType.sendTimeout ||
           dioException.type == DioExceptionType.receiveTimeout) {
@@ -60,7 +57,6 @@ class SessionServiceImpl implements SessionService {
     } else if (response.statusCode == 500) {
       throw InternalServerErrorException();
     } else {
-      log("Error: ${response.statusCode} - ${response.data}");
       throw CustomException(response.data.toString(),
           statusCode: response.statusCode);
     }
