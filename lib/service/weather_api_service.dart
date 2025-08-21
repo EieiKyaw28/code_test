@@ -2,7 +2,7 @@ import 'dart:convert';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:sky_cast_weather/domain/city_weather_forecast_model.dart';
 import 'package:sky_cast_weather/domain/search_cities_response.dart';
-import 'package:sky_cast_weather/service/session_constant.dart';
+import 'package:sky_cast_weather/env.dart';
 import 'session_service.dart';
 
 // WeatherApiService is for low-level API calls related to weather data.
@@ -15,7 +15,7 @@ class WeatherApiService {
   //! search
   Future<List<CityData>> searchCities({required String query}) async {
     try {
-      final url = '$baseUrl/search.json?key=$kApiKey&q=$query';
+      final url = '${Env.baseUrl}/search.json?key=${Env.key}&q=$query';
       final response = await session.get(url);
 
       final data = response.data;
@@ -33,7 +33,7 @@ class WeatherApiService {
   }) async {
     try {
 
-      final url = '$baseUrl/current.json?key=$kApiKey&q=$lat,$lon';
+      final url = '${Env.baseUrl}/current.json?key=${Env.key}&q=$lat,$lon';
       final response = await session.get(url);
 
       final data = response.data;
@@ -49,7 +49,7 @@ class WeatherApiService {
     required double? lon,
   }) async {
     try {
-      final url = '$baseUrl/forecast.json?key=$kApiKey&q=$lat,$lon&days=5';
+      final url = '${Env.baseUrl}/forecast.json?key=${Env.key}&q=$lat,$lon&days=5';
       final response = await session.get(url);
 
       final data = response.data;
