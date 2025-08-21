@@ -66,8 +66,7 @@ assets/
    flutter pub get
    ```
 
-3. **Set up your API key:**  
-   - Copy `.env.example` to `.env` (or edit `.env` directly)
+3. **Set up your API key:**   
    - Add your WeatherAPI.com API key or you can use the exisiting one
 
 4. **Run the app:**  
