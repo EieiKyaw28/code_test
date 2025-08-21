@@ -1,6 +1,5 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_animate/flutter_animate.dart';
-import 'package:sky_cast_weather/common/common_text_style.dart';
 import 'package:sky_cast_weather/common/extension.dart';
 
 class WeatherInfoCard extends StatelessWidget {

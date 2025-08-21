@@ -4,7 +4,7 @@ import 'package:riverpod/riverpod.dart';
 import 'package:sky_cast_weather/common/assets_string.dart';
 import 'package:sky_cast_weather/presentation/widget/common_dialog.dart';
 import 'package:sky_cast_weather/provider/weather_api_providers.dart';
-import 'package:sky_cast_weather/service/custom_exception.dart';
+import 'package:sky_cast_weather/service/utils/custom_exception.dart';
 
 class AsyncValueWidget<T> extends ConsumerWidget {
   const AsyncValueWidget(

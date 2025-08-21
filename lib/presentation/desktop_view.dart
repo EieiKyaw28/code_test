@@ -14,8 +14,6 @@ import 'package:sky_cast_weather/presentation/widget/weather_info_card.dart';
 import 'package:sky_cast_weather/presentation/widget/weekly_forecast_card.dart';
 import 'package:sky_cast_weather/provider/weather_api_providers.dart';
 import 'package:sky_cast_weather/theme/weather_theme.dart';
-import 'package:lottie/lottie.dart';
-
 import '../service/location_service.dart';
 
 class CityDetailDesktopView extends ConsumerStatefulWidget {

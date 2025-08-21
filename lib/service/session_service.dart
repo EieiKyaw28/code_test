@@ -2,8 +2,8 @@ import 'dart:async';
 import 'dart:io';
 import 'package:dio/dio.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
-import 'package:sky_cast_weather/service/custom_exception.dart';
-import 'package:sky_cast_weather/service/custom_response.dart';
+import 'package:sky_cast_weather/service/utils/custom_exception.dart';
+import 'package:sky_cast_weather/domain/custom_response.dart';
 import 'package:sky_cast_weather/service/session_service_repository.dart';
 
 abstract class SessionService {

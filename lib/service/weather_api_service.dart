@@ -21,7 +21,7 @@ class WeatherApiService {
       final data = response.data;
 
       return cityDataFromJson(json.encode(data));
-    } catch (e, st) {
+    } catch (e) {
       rethrow;
     }
   }

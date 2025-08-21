@@ -4,13 +4,10 @@ import 'package:permission_handler/permission_handler.dart';
 import 'package:sky_cast_weather/presentation/search_sceen.dart';
 
 class LocationService {
-  // Singleton instance
   static final LocationService _instance = LocationService._internal();
 
-  // Private constructor
   LocationService._internal();
 
-  // Factory constructor returns the same instance
   factory LocationService() => _instance;
 
   Future<Position> getCurrentLocation(BuildContext context) async {
@@ -34,15 +31,14 @@ class LocationService {
       }
 
       if (permission == LocationPermission.deniedForever) {
-        // 🚨 Can't request again, must go to settings
         openAppSettings();
-        return Future.error(
+        throw Exception(
           "Location permissions are permanently denied. Please enable them from settings.",
         );
       }
 
       return await Geolocator.getCurrentPosition();
-    } catch (e, st) {
+    } catch (e) {
       if (shouldNavigateToSearchScreen) {
         if (context.mounted) {
           Navigator.push(
