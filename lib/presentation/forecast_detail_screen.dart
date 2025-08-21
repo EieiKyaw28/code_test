@@ -26,11 +26,6 @@ class _ForecastDetailScreenState extends ConsumerState<ForecastDetailScreen> {
   int selectedIndex = -1;
 
   @override
-  void dispose() {
-    super.dispose();
-  }
-
-  @override
   Widget build(BuildContext context) {
     final weatherTheme = Theme.of(context).extension<WeatherTheme>()!;
 

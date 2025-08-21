@@ -4,7 +4,7 @@ import 'package:dio/dio.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:sky_cast_weather/service/utils/custom_exception.dart';
 import 'package:sky_cast_weather/domain/custom_response.dart';
-import 'package:sky_cast_weather/service/session_service_repository.dart';
+import 'package:sky_cast_weather/provider/dio_provider.dart';
 
 abstract class SessionService {
   Future<CustomResponse> get(String url, {Map<String, String>? headers});
