@@ -78,7 +78,7 @@ assets/
 
 - This project is for demonstration and code review purposes.
 - The API key in `.env` is required for the app to function.
-- The app supports Android, iOS, Web, Windows, macOS, and Linux.
+- The app is well-tested on Android, iOS and Windows.
 
 ---
 
