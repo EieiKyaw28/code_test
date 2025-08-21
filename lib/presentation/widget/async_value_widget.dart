@@ -8,36 +8,30 @@ import 'package:sky_cast_weather/service/custom_exception.dart';
 
 class AsyncValueWidget<T> extends ConsumerWidget {
   const AsyncValueWidget(
-      {super.key,
-      required this.data,
-      required this.child,
-      this.loadingChild,
-      this.errorChild});
+      {super.key, required this.data, required this.child, this.loadingChild});
 
   final AsyncValue<T> data;
   final Widget Function(T) child;
   final Widget? loadingChild;
-  final Widget Function()? errorChild;
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {
     return data.when(
         data: (data) => child(data),
         error: (e, s) {
-          return errorChild != null
-              ? errorChild!()
-              : _CommonErrorWidget(
-                  exception: e as CustomException,
-                  onRetry: () {
-                    try {
-                      ref.invalidate(cityWeatherDetailProvider);
-                      ref.invalidate(searchCitiesProvider);
-                      ref.invalidate(cityWeatherForecastProvider);
-                    } catch (e) {
-                      rethrow;
-                    }
-                  },
-                );
+          return _CommonErrorWidget(
+            exception: e as CustomException,
+            onRetry: () {
+              try {
+                ref.invalidate(cityWeatherDetailProvider);
+                ref.invalidate(searchCitiesProvider);
+                ref.invalidate(cityWeatherForecastProvider);
+              } catch (e) {
+                rethrow;
+              }
+            },
+            isLoading: data.isLoading || data.isRefreshing || data.isReloading,
+          );
         },
         loading: () {
           return loadingChild ??
@@ -50,10 +44,15 @@ class AsyncValueWidget<T> extends ConsumerWidget {
 }
 
 class _CommonErrorWidget extends StatelessWidget {
-  const _CommonErrorWidget({required this.exception, required this.onRetry});
+  const _CommonErrorWidget({
+    required this.exception,
+    required this.onRetry,
+    required this.isLoading,
+  });
 
   final CustomException exception;
   final VoidCallback onRetry;
+  final bool isLoading;
 
   @override
   Widget build(BuildContext context) {
@@ -63,6 +62,7 @@ class _CommonErrorWidget extends StatelessWidget {
         message: exception.message,
         confirmText: "Retry",
         onConfirm: onRetry,
+        isLoading: isLoading,
       );
     } else if (exception is InternalServerErrorException) {
       return CommonDialog(
@@ -70,6 +70,7 @@ class _CommonErrorWidget extends StatelessWidget {
         message: exception.message,
         confirmText: "Retry",
         onConfirm: onRetry,
+        isLoading: isLoading,
       );
     } else if (exception is ConnectionTimeoutException) {
       return CommonDialog(
@@ -77,6 +78,7 @@ class _CommonErrorWidget extends StatelessWidget {
         message: exception.message,
         confirmText: "Retry",
         onConfirm: onRetry,
+        isLoading: isLoading,
       );
     } else {
       return CommonDialog(
@@ -84,6 +86,7 @@ class _CommonErrorWidget extends StatelessWidget {
         message: exception.message,
         confirmText: "Retry",
         onConfirm: onRetry,
+        isLoading: isLoading,
       );
     }
   }

@@ -1,16 +1,15 @@
-import 'dart:developer';
-
 import 'package:flutter/material.dart';
 import 'package:lottie/lottie.dart';
 import 'package:sky_cast_weather/common/extension.dart';
 
-class CommonDialog extends StatefulWidget {
+class CommonDialog extends StatelessWidget {
   final String message;
   final String confirmText;
   final String cancelText;
   final String lottie;
   final VoidCallback? onConfirm;
   final VoidCallback? onCancel;
+  final bool isLoading;
 
   const CommonDialog({
     super.key,
@@ -20,14 +19,9 @@ class CommonDialog extends StatefulWidget {
     this.cancelText = "Cancel",
     this.onConfirm,
     this.onCancel,
+    this.isLoading = false
   });
 
-  @override
-  State<CommonDialog> createState() => _CommonDialogState();
-}
-
-class _CommonDialogState extends State<CommonDialog> {
-  bool isLoading = false;
   @override
   Widget build(BuildContext context) {
     return AlertDialog(
@@ -38,13 +32,13 @@ class _CommonDialogState extends State<CommonDialog> {
       title: SizedBox(
         height: 100,
         width: 100,
-        child: Lottie.asset(widget.lottie),
+        child: Lottie.asset(lottie),
       ),
       content: Column(
         mainAxisSize: MainAxisSize.min,
         children: [
           Text(
-            widget.message,
+            message,
             textAlign: TextAlign.center,
             style: const TextStyle(
               fontWeight: FontWeight.bold,
@@ -56,15 +50,18 @@ class _CommonDialogState extends State<CommonDialog> {
           InkWell(
             onTap: isLoading
                 ? null
-                : () async {
+                : () async { 
                     try {
-                      setState(() => isLoading = true);
-                      await Future.delayed(const Duration(seconds: 5));
-                      widget.onConfirm!();
-                      setState(() => isLoading = false);
+                      onConfirm?.call();
                     } catch (e) {
-                      setState(() => isLoading = false);
-                    }
+                      if (context.mounted) {
+                        ScaffoldMessenger.of(context).showSnackBar(
+                          const SnackBar(
+                              content: Text(
+                                  "Something went wrong, please try again.")),
+                        );
+                      }
+                    }  
                   },
             child: Container(
               width: double.infinity,
