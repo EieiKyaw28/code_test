@@ -60,8 +60,7 @@ class _SearchScreenState extends ConsumerState<SearchScreen> {
                             fontStyle: FontStyle.italic,
                           ),
                           border: InputBorder.none,
-                          fillColor: Colors
-                              .transparent, // Also set fillColor to transparent
+                          fillColor: Colors.transparent, // Also set fillColor to transparent
                           filled: true, // Enable fillColor
                         ),
                         cursorColor: Colors.white,
@@ -90,7 +89,6 @@ class _SearchScreenState extends ConsumerState<SearchScreen> {
               ),
               if (searchController.text.isNotEmpty)
                 AsyncValueWidget(
-                    
                     loadingChild: Center(
                       child: SizedBox(
                         height: 100,
@@ -98,8 +96,7 @@ class _SearchScreenState extends ConsumerState<SearchScreen> {
                         child: Lottie.asset(AssetsString.search),
                       ),
                     ),
-                    data: ref.watch(searchCitiesProvider(
-                        CommonQueryModel(city: _searchText))),
+                    data: ref.watch(searchCitiesProvider(CommonQueryModel(city: _searchText))),
                     child: (data) {
                       final cities = data;
                       return cities.isEmpty
@@ -122,8 +119,7 @@ class _SearchScreenState extends ConsumerState<SearchScreen> {
                                         child: Container(
                                           decoration: BoxDecoration(
                                             color: Colors.white,
-                                            borderRadius:
-                                                BorderRadius.circular(6),
+                                            borderRadius: BorderRadius.circular(6),
                                             border: Border.all(
                                               width: 1,
                                               color: Colors.white,
@@ -177,7 +173,6 @@ class _SearchScreenState extends ConsumerState<SearchScreen> {
                     child: Lottie.asset(AssetsString.location),
                   )
                 : AsyncValueWidget(
-                   
                     loadingChild: Center(
                       child: SizedBox(
                         height: 100,
@@ -185,8 +180,7 @@ class _SearchScreenState extends ConsumerState<SearchScreen> {
                         child: Lottie.asset(AssetsString.search),
                       ),
                     ),
-                    data: ref.watch(searchCitiesProvider(
-                        CommonQueryModel(city: _searchText))),
+                    data: ref.watch(searchCitiesProvider(CommonQueryModel(city: _searchText))),
                     child: (data) {
                       final cities = data;
                       return cities.isEmpty
@@ -202,41 +196,34 @@ class _SearchScreenState extends ConsumerState<SearchScreen> {
                                       (context, index) {
                                         final city = cities[index];
                                         return Padding(
-                                          padding:
-                                              const EdgeInsets.only(bottom: 4),
+                                          padding: const EdgeInsets.only(bottom: 4),
                                           child: InkWell(
                                             onTap: () {
                                               Navigator.push(
                                                   context,
                                                   MaterialPageRoute(
-                                                      builder: (context) =>
-                                                          CityDetailScreen(
+                                                      builder: (context) => CityDetailScreen(
                                                             cityData: city,
                                                           )));
                                             },
                                             child: Container(
                                               decoration: BoxDecoration(
                                                 color: Colors.white,
-                                                borderRadius:
-                                                    BorderRadius.circular(6),
+                                                borderRadius: BorderRadius.circular(6),
                                                 border: Border.all(
                                                   width: 1,
                                                   color: Colors.white,
                                                 ),
                                               ),
                                               child: Padding(
-                                                padding:
-                                                    const EdgeInsets.all(8.0),
+                                                padding: const EdgeInsets.all(8.0),
                                                 child: Row(
-                                                  mainAxisAlignment:
-                                                      MainAxisAlignment
-                                                          .spaceBetween,
+                                                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
                                                   children: [
                                                     Text(
                                                       city.name ?? '-',
                                                       style: const TextStyle(
-                                                        fontWeight:
-                                                            FontWeight.bold,
+                                                        fontWeight: FontWeight.bold,
                                                         fontSize: 14,
                                                         color: Colors.black,
                                                       ),

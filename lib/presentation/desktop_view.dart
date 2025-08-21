@@ -22,8 +22,7 @@ class CityDetailDesktopView extends ConsumerStatefulWidget {
   });
 
   @override
-  ConsumerState<CityDetailDesktopView> createState() =>
-      _CityDetailDesktopViewState();
+  ConsumerState<CityDetailDesktopView> createState() => _CityDetailDesktopViewState();
 }
 
 class _CityDetailDesktopViewState extends ConsumerState<CityDetailDesktopView> {
@@ -50,8 +49,7 @@ class _CityDetailDesktopViewState extends ConsumerState<CityDetailDesktopView> {
         lon: lon,
       );
       final weather = await ref.read(cityWeatherDetailProvider(family).future);
-      final weatherCondition =
-          getWeatherCategory(weather.current?.condition?.code);
+      final weatherCondition = getWeatherCategory(weather.current?.condition?.code);
       updateWeatherTheme(weatherCondition.name);
     }
   }
@@ -112,38 +110,29 @@ class _CityDetailDesktopViewState extends ConsumerState<CityDetailDesktopView> {
                               padding: const EdgeInsets.all(10.0),
                               child: lat != null && lon != null
                                   ? AsyncValueWidget(
-                                      data: ref.watch(
-                                          cityWeatherDetailProvider(family)),
+                                      data: ref.watch(cityWeatherDetailProvider(family)),
                                       child: (data) {
                                         return Column(
-                                          crossAxisAlignment:
-                                              CrossAxisAlignment.start,
+                                          crossAxisAlignment: CrossAxisAlignment.start,
                                           children: [
                                             10.vGap,
 
                                             Row(
-                                              crossAxisAlignment:
-                                                  CrossAxisAlignment.start,
-                                              mainAxisAlignment:
-                                                  MainAxisAlignment
-                                                      .spaceBetween,
+                                              crossAxisAlignment: CrossAxisAlignment.start,
+                                              mainAxisAlignment: MainAxisAlignment.spaceBetween,
                                               children: [
                                                 Text(
-                                                  data.location?.name ??
-                                                      'Unknown City',
-                                                  style:
-                                                      CommonTextStyle.cityTitle,
+                                                  data.location?.name ?? 'Unknown City',
+                                                  style: CommonTextStyle.cityTitle,
                                                 ),
                                                 ToggleComponent(
                                                   onTap: (index) {
                                                     setState(() {
-                                                      selectedToggleIndex =
-                                                          index;
+                                                      selectedToggleIndex = index;
                                                       isCelsius = !isCelsius;
                                                     });
                                                   },
-                                                  selectedValue:
-                                                      selectedToggleIndex,
+                                                  selectedValue: selectedToggleIndex,
                                                 ),
                                               ],
                                             ),
@@ -158,36 +147,24 @@ class _CityDetailDesktopViewState extends ConsumerState<CityDetailDesktopView> {
                                             Row(
                                               children: [
                                                 Text(
-                                                  data.current?.condition
-                                                          ?.text ??
-                                                      '',
-                                                  style: CommonTextStyle
-                                                      .weatherSubtitle,
+                                                  data.current?.condition?.text ?? '',
+                                                  style: CommonTextStyle.weatherSubtitle,
                                                 ),
                                                 CatchedNetworkImage(
-                                                  url: data.current?.condition
-                                                          ?.icon ??
-                                                      "",
-                                                )
-                                                    .animate(
-                                                        onPlay: (c) => c.repeat(
-                                                            reverse: true))
-                                                    .fade(duration: 1.seconds),
+                                                  url: data.current?.condition?.icon ?? "",
+                                                ).animate(onPlay: (c) => c.repeat(reverse: true)).fade(duration: 1.seconds),
                                               ],
                                             ),
 
                                             // Temperature
                                             Text(
                                               "${isCelsius ? data.current?.tempC?.toString() ?? '-' : data.current?.tempF?.toString() ?? '-'} ${isCelsius ? '°C' : '°F'}",
-                                              style:
-                                                  CommonTextStyle.weatherTitle,
+                                              style: CommonTextStyle.weatherTitle,
                                             ),
 
                                             // Daily Summary
                                             10.vGap,
-                                            const Text("Daily Summary",
-                                                style: CommonTextStyle
-                                                    .weatherSubtitle),
+                                            const Text("Daily Summary", style: CommonTextStyle.weatherSubtitle),
                                             5.hGap,
                                             Text(
                                               "It feel like ${isCelsius ? data.current?.feelslikeC?.toString() ?? '-' : data.current?.feelslikeF?.toString() ?? '-'} ${isCelsius ? '°C' : '°F'} Today.",
@@ -197,34 +174,24 @@ class _CityDetailDesktopViewState extends ConsumerState<CityDetailDesktopView> {
                                             20.vGap,
                                             // Weather details (Wind, Humidity, Visibility)
                                             Container(
-                                              decoration: BoxDecoration(
-                                                  borderRadius:
-                                                      BorderRadius.circular(10),
-                                                  color: Colors.white),
+                                              decoration: BoxDecoration(borderRadius: BorderRadius.circular(10), color: Colors.white),
                                               child: Row(
-                                                mainAxisAlignment:
-                                                    MainAxisAlignment
-                                                        .spaceEvenly,
+                                                mainAxisAlignment: MainAxisAlignment.spaceEvenly,
                                                 children: [
                                                   WeatherInfoCard(
                                                     label: "Wind",
-                                                    value:
-                                                        "${data.current?.windKph.toString() ?? ''}km/h",
+                                                    value: "${data.current?.windKph.toString() ?? ''}km/h",
                                                     image: AssetsString.wind,
                                                   ),
                                                   WeatherInfoCard(
                                                     label: "Humidity",
-                                                    value:
-                                                        "${data.current?.humidity.toString() ?? ''}%",
-                                                    image:
-                                                        AssetsString.humidity,
+                                                    value: "${data.current?.humidity.toString() ?? ''}%",
+                                                    image: AssetsString.humidity,
                                                   ),
                                                   WeatherInfoCard(
                                                     label: "Visibility",
-                                                    value:
-                                                        "${data.current?.visKm.toString() ?? ''}km",
-                                                    image:
-                                                        AssetsString.visiblity,
+                                                    value: "${data.current?.visKm.toString() ?? ''}km",
+                                                    image: AssetsString.visiblity,
                                                   ),
                                                 ],
                                               ),
@@ -235,51 +202,28 @@ class _CityDetailDesktopViewState extends ConsumerState<CityDetailDesktopView> {
                                             // Weekly forecast (Animated)
                                             const Text(
                                               "Weekly forecast",
-                                              style: CommonTextStyle
-                                                  .weatherSubtitle,
+                                              style: CommonTextStyle.weatherSubtitle,
                                             ),
                                             10.vGap,
-                                            if (data.location?.name !=
-                                                null) ...[
-                                              if (lat != null &&
-                                                  lon != null) ...[
+                                            if (data.location?.name != null) ...[
+                                              if (lat != null && lon != null) ...[
                                                 AsyncValueWidget(
-                                                    data: ref.watch(
-                                                        cityWeatherForecastProvider(
+                                                    data: ref.watch(cityWeatherForecastProvider(
                                                       family,
                                                     )),
                                                     child: (data) {
-                                                      final forecasts = data
-                                                              .forecast
-                                                              ?.forecastday ??
-                                                          [];
+                                                      final forecasts = data.forecast?.forecastday ?? [];
                                                       return SizedBox(
                                                         height: 130,
                                                         child: ListView.builder(
-                                                          scrollDirection:
-                                                              Axis.horizontal,
-                                                          itemCount:
-                                                              forecasts.length,
-                                                          itemBuilder:
-                                                              (context, index) {
-                                                            final item =
-                                                                forecasts[
-                                                                    index];
+                                                          scrollDirection: Axis.horizontal,
+                                                          itemCount: forecasts.length,
+                                                          itemBuilder: (context, index) {
+                                                            final item = forecasts[index];
                                                             return WeeklyForecastCard(
                                                               forecast: item,
-                                                              isCelsius:
-                                                                  isCelsius,
-                                                            )
-                                                                .animate()
-                                                                .fadeIn(
-                                                                    duration:
-                                                                        500.ms,
-                                                                    delay: (index *
-                                                                            200)
-                                                                        .ms)
-                                                                .slideY(
-                                                                    begin: 1,
-                                                                    end: 0);
+                                                              isCelsius: isCelsius,
+                                                            ).animate().fadeIn(duration: 500.ms, delay: (index * 200).ms).slideY(begin: 1, end: 0);
                                                           },
                                                         ),
                                                       );
@@ -306,8 +250,7 @@ class _CityDetailDesktopViewState extends ConsumerState<CityDetailDesktopView> {
                         children: [
                           if (lat != null && lon != null) ...[
                             AsyncValueWidget(
-                                data: ref
-                                    .watch(cityWeatherForecastProvider(family)),
+                                data: ref.watch(cityWeatherForecastProvider(family)),
                                 child: (data) {
                                   return CustomScrollView(
                                     slivers: [
@@ -317,26 +260,21 @@ class _CityDetailDesktopViewState extends ConsumerState<CityDetailDesktopView> {
                                           delegate: SliverChildBuilderDelegate(
                                             (context, index) {
                                               return Padding(
-                                                  padding:
-                                                      const EdgeInsets.only(
-                                                          bottom: 6),
+                                                  padding: const EdgeInsets.only(bottom: 6),
                                                   child: SizedBox(
                                                       child: ForecastDetailCard(
                                                     isCelcius: isCelsius,
                                                     selectedIndex: index,
-                                                    isSelected:
-                                                        selectedIndex == index,
+                                                    isSelected: selectedIndex == index,
                                                     onTap: () {
                                                       setState(() {
                                                         selectedIndex = index;
                                                       });
                                                     },
-                                                    forecast: data.forecast!
-                                                        .forecastday![index],
+                                                    forecast: data.forecast!.forecastday![index],
                                                   )));
                                             },
-                                            childCount: data
-                                                .forecast?.forecastday?.length,
+                                            childCount: data.forecast?.forecastday?.length,
                                           ),
                                         ),
                                       ),

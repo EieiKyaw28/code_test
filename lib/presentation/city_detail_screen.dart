@@ -56,8 +56,7 @@ class _CityDetailScreenState extends ConsumerState<CityDetailScreen> {
             builder: (context) {
               return LocationPermissionDialog(
                 onAllow: () async {
-                  final position =
-                      await LocationService().getCurrentLocation(context);
+                  final position = await LocationService().getCurrentLocation(context);
                   setState(() {
                     lat = position.latitude;
                     lon = position.longitude;
@@ -89,8 +88,7 @@ class _CityDetailScreenState extends ConsumerState<CityDetailScreen> {
         lon: lon!,
       );
       final weather = await ref.read(cityWeatherDetailProvider(family).future);
-      final weatherCondition =
-          getWeatherCategory(weather.current?.condition?.code);
+      final weatherCondition = getWeatherCategory(weather.current?.condition?.code);
       updateWeatherTheme(weatherCondition.name);
     }
   }
@@ -104,7 +102,6 @@ class _CityDetailScreenState extends ConsumerState<CityDetailScreen> {
           lat = widget.cityData?.lat;
           lon = widget.cityData?.lon;
         });
-
       }
       getCurrentLatLon(context);
       fetchWeather();
@@ -144,60 +141,42 @@ class _CityDetailScreenState extends ConsumerState<CityDetailScreen> {
                               children: [
                                 Padding(
                                     padding: const EdgeInsets.all(16.0),
-                                    child: widget.cityData == null &&
-                                            lat == null &&
-                                            lon == null
+                                    child: widget.cityData == null && lat == null && lon == null
                                         ? SizedBox(
                                             child: Center(
-                                              child: Lottie.asset(
-                                                  AssetsString.loading),
+                                              child: Lottie.asset(AssetsString.loading),
                                             ),
                                           )
                                         : AsyncValueWidget(
-                                            
-                                            data: ref.watch(
-                                                cityWeatherDetailProvider(
-                                                    family)),
+                                            data: ref.watch(cityWeatherDetailProvider(family)),
                                             child: (data) {
                                               return Column(
-                                                crossAxisAlignment:
-                                                    CrossAxisAlignment.start,
+                                                crossAxisAlignment: CrossAxisAlignment.start,
                                                 children: [
                                                   20.vGap,
 
                                                   Row(
-                                                    mainAxisAlignment:
-                                                        MainAxisAlignment
-                                                            .spaceBetween,
+                                                    mainAxisAlignment: MainAxisAlignment.spaceBetween,
                                                     children: [
                                                       Row(
-                                                        mainAxisAlignment:
-                                                            MainAxisAlignment
-                                                                .center,
+                                                        mainAxisAlignment: MainAxisAlignment.center,
                                                         children: [
                                                           Text(
-                                                            data.location
-                                                                    ?.name ??
-                                                                'Unknown City',
-                                                            style:
-                                                                CommonTextStyle
-                                                                    .cityTitle,
+                                                            data.location?.name ?? 'Unknown City',
+                                                            style: CommonTextStyle.cityTitle,
                                                           ),
                                                           IconButton(
                                                             onPressed: () {
                                                               Navigator.push(
                                                                 context,
                                                                 MaterialPageRoute(
-                                                                  builder:
-                                                                      (context) =>
-                                                                          const SearchScreen(),
+                                                                  builder: (context) => const SearchScreen(),
                                                                 ),
                                                               );
                                                             },
                                                             icon: const Icon(
                                                               Icons.search,
-                                                              color:
-                                                                  Colors.white,
+                                                              color: Colors.white,
                                                             ),
                                                           ),
                                                         ],
@@ -205,21 +184,17 @@ class _CityDetailScreenState extends ConsumerState<CityDetailScreen> {
                                                       ToggleComponent(
                                                         onTap: (index) {
                                                           setState(() {
-                                                            selectedIndex =
-                                                                index;
-                                                            isCelsius =
-                                                                !isCelsius;
+                                                            selectedIndex = index;
+                                                            isCelsius = !isCelsius;
                                                           });
                                                         },
-                                                        selectedValue:
-                                                            selectedIndex,
+                                                        selectedValue: selectedIndex,
                                                       ),
                                                     ],
                                                   ),
 
                                                   Text(
-                                                    data.location?.localtime ??
-                                                        "",
+                                                    data.location?.localtime ?? "",
                                                     style: CommonTextStyle.text,
                                                   ),
                                                   5.vGap,
@@ -229,45 +204,25 @@ class _CityDetailScreenState extends ConsumerState<CityDetailScreen> {
                                                     children: [
                                                       Expanded(
                                                         child: Text(
-                                                          data
-                                                                  .current
-                                                                  ?.condition
-                                                                  ?.text ??
-                                                              '',
-                                                          style: CommonTextStyle
-                                                              .weatherSubtitle,
+                                                          data.current?.condition?.text ?? '',
+                                                          style: CommonTextStyle.weatherSubtitle,
                                                         ),
                                                       ),
                                                       CatchedNetworkImage(
-                                                        url: data
-                                                                .current
-                                                                ?.condition
-                                                                ?.icon ??
-                                                            "",
-                                                      )
-                                                          .animate(
-                                                              onPlay: (c) =>
-                                                                  c.repeat(
-                                                                      reverse:
-                                                                          true))
-                                                          .fade(
-                                                              duration:
-                                                                  1.seconds),
+                                                        url: data.current?.condition?.icon ?? "",
+                                                      ).animate(onPlay: (c) => c.repeat(reverse: true)).fade(duration: 1.seconds),
                                                     ],
                                                   ),
 
                                                   // Temperature
                                                   Text(
                                                     "${isCelsius ? data.current?.tempC?.toString() ?? '-' : data.current?.tempF?.toString() ?? '-'} ${isCelsius ? '°C' : '°F'}",
-                                                    style: CommonTextStyle
-                                                        .weatherTitle,
+                                                    style: CommonTextStyle.weatherTitle,
                                                   ),
 
                                                   // Daily Summary
                                                   10.vGap,
-                                                  const Text("Daily Summary",
-                                                      style: CommonTextStyle
-                                                          .weatherSubtitle),
+                                                  const Text("Daily Summary", style: CommonTextStyle.weatherSubtitle),
                                                   5.hGap,
                                                   Text(
                                                     "It feel like ${isCelsius ? data.current?.feelslikeC?.toString() ?? '-' : data.current?.feelslikeF?.toString() ?? '-'} ${isCelsius ? '°C' : '°F'} Today.",
@@ -277,36 +232,24 @@ class _CityDetailScreenState extends ConsumerState<CityDetailScreen> {
                                                   20.vGap,
                                                   // Weather details (Wind, Humidity, Visibility)
                                                   Container(
-                                                    decoration: BoxDecoration(
-                                                        borderRadius:
-                                                            BorderRadius
-                                                                .circular(10),
-                                                        color: Colors.white),
+                                                    decoration: BoxDecoration(borderRadius: BorderRadius.circular(10), color: Colors.white),
                                                     child: Row(
-                                                      mainAxisAlignment:
-                                                          MainAxisAlignment
-                                                              .spaceEvenly,
+                                                      mainAxisAlignment: MainAxisAlignment.spaceEvenly,
                                                       children: [
                                                         WeatherInfoCard(
                                                           label: "Wind",
-                                                          value:
-                                                              "${data.current?.windKph.toString() ?? ''}km/h",
-                                                          image:
-                                                              AssetsString.wind,
+                                                          value: "${data.current?.windKph.toString() ?? ''}km/h",
+                                                          image: AssetsString.wind,
                                                         ),
                                                         WeatherInfoCard(
                                                           label: "Humidity",
-                                                          value:
-                                                              "${data.current?.humidity.toString() ?? ''}%",
-                                                          image: AssetsString
-                                                              .humidity,
+                                                          value: "${data.current?.humidity.toString() ?? ''}%",
+                                                          image: AssetsString.humidity,
                                                         ),
                                                         WeatherInfoCard(
                                                           label: "Visibility",
-                                                          value:
-                                                              "${data.current?.visKm.toString() ?? ''}km",
-                                                          image: AssetsString
-                                                              .visiblity,
+                                                          value: "${data.current?.visKm.toString() ?? ''}km",
+                                                          image: AssetsString.visiblity,
                                                         ),
                                                       ],
                                                     ),
@@ -316,30 +259,22 @@ class _CityDetailScreenState extends ConsumerState<CityDetailScreen> {
 
                                                   // Weekly forecast (Animated)
                                                   Row(
-                                                    mainAxisAlignment:
-                                                        MainAxisAlignment
-                                                            .spaceBetween,
+                                                    mainAxisAlignment: MainAxisAlignment.spaceBetween,
                                                     children: [
                                                       const Text(
                                                         "Weekly forecast",
-                                                        style: CommonTextStyle
-                                                            .weatherSubtitle,
+                                                        style: CommonTextStyle.weatherSubtitle,
                                                       ),
                                                       InkWell(
                                                         onTap: () {
                                                           Navigator.push(
                                                               context,
                                                               MaterialPageRoute(
-                                                                  builder:
-                                                                      (context) =>
-                                                                          ForecastDetailScreen(
-                                                                            isCelcius:
-                                                                                isCelsius,
-                                                                            lat:
-                                                                                lat ?? 0,
-                                                                            lon:
-                                                                                lon ?? 0,
-                                                                          )));
+                                                                  builder: (context) => ForecastDetailScreen(
+                                                                        isCelcius: isCelsius,
+                                                                        lat: lat ?? 0,
+                                                                        lon: lon ?? 0,
+                                                                      )));
                                                         },
                                                         child: const Icon(
                                                           Icons.arrow_forward,
@@ -349,49 +284,22 @@ class _CityDetailScreenState extends ConsumerState<CityDetailScreen> {
                                                     ],
                                                   ),
                                                   10.vGap,
-                                                  if (data.location?.name !=
-                                                      null) ...[
+                                                  if (data.location?.name != null) ...[
                                                     AsyncValueWidget(
-                                                        data: ref.watch(
-                                                            cityWeatherForecastProvider(
-                                                                family)),
-                                                        
+                                                        data: ref.watch(cityWeatherForecastProvider(family)),
                                                         child: (data) {
-                                                          final forecasts = data
-                                                                  .forecast
-                                                                  ?.forecastday ??
-                                                              [];
+                                                          final forecasts = data.forecast?.forecastday ?? [];
                                                           return SizedBox(
                                                             height: 130,
-                                                            child: ListView
-                                                                .builder(
-                                                              scrollDirection:
-                                                                  Axis.horizontal,
-                                                              itemCount:
-                                                                  forecasts
-                                                                      .length,
-                                                              itemBuilder:
-                                                                  (context,
-                                                                      index) {
-                                                                final item =
-                                                                    forecasts[
-                                                                        index];
+                                                            child: ListView.builder(
+                                                              scrollDirection: Axis.horizontal,
+                                                              itemCount: forecasts.length,
+                                                              itemBuilder: (context, index) {
+                                                                final item = forecasts[index];
                                                                 return WeeklyForecastCard(
-                                                                  forecast:
-                                                                      item,
-                                                                  isCelsius:
-                                                                      isCelsius,
-                                                                )
-                                                                    .animate()
-                                                                    .fadeIn(
-                                                                        duration: 500
-                                                                            .ms,
-                                                                        delay: (index * 200)
-                                                                            .ms)
-                                                                    .slideY(
-                                                                        begin:
-                                                                            1,
-                                                                        end: 0);
+                                                                  forecast: item,
+                                                                  isCelsius: isCelsius,
+                                                                ).animate().fadeIn(duration: 500.ms, delay: (index * 200).ms).slideY(begin: 1, end: 0);
                                                               },
                                                             ),
                                                           );

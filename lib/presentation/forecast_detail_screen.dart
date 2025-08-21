@@ -8,18 +8,13 @@ import 'package:sky_cast_weather/provider/weather_api_providers.dart';
 import 'package:sky_cast_weather/theme/weather_theme.dart';
 
 class ForecastDetailScreen extends ConsumerStatefulWidget {
-  const ForecastDetailScreen(
-      {super.key,
-      required this.lat,
-      required this.lon,
-      required this.isCelcius});
+  const ForecastDetailScreen({super.key, required this.lat, required this.lon, required this.isCelcius});
   final double lat;
   final double lon;
   final bool isCelcius;
 
   @override
-  ConsumerState<ForecastDetailScreen> createState() =>
-      _ForecastDetailScreenState();
+  ConsumerState<ForecastDetailScreen> createState() => _ForecastDetailScreenState();
 }
 
 class _ForecastDetailScreenState extends ConsumerState<ForecastDetailScreen> {
@@ -59,8 +54,7 @@ class _ForecastDetailScreenState extends ConsumerState<ForecastDetailScreen> {
                 ),
               ),
               AsyncValueWidget(
-                  data: ref.watch(cityWeatherForecastProvider(
-                      CommonQueryModel(lat: widget.lat, lon: widget.lon))),
+                  data: ref.watch(cityWeatherForecastProvider(CommonQueryModel(lat: widget.lat, lon: widget.lon))),
                   child: (data) {
                     return CustomScrollView(
                       slivers: [
@@ -80,8 +74,7 @@ class _ForecastDetailScreenState extends ConsumerState<ForecastDetailScreen> {
                                           selectedIndex = index;
                                         });
                                       },
-                                      forecast:
-                                          data.forecast!.forecastday![index],
+                                      forecast: data.forecast!.forecastday![index],
                                     ));
                               },
                               childCount: data.forecast?.forecastday?.length,
