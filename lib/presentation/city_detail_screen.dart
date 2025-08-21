@@ -52,6 +52,7 @@ class _CityDetailScreenState extends ConsumerState<CityDetailScreen> {
       } else {
         showDialog(
             // ignore: use_build_context_synchronously
+            barrierDismissible: false,
             context: context,
             builder: (context) {
               return LocationPermissionDialog(
