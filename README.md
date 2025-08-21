@@ -1,6 +1,6 @@
 # Sky Cast Weather
 
-Sky Cast Weather is a cross-platform Flutter application that displays current weather and forecasts for cities worldwide. It is designed as a code test and demonstrates clean architecture, state management with Riverpod, and integration with a real-world weather API.
+Sky Cast Weather is a cross-platform Flutter application that displays current weather and forecasts for cities worldwide. It is designed as a code test and demonstrates clean architecture, state management with Riverpod, and integration with a real-world weather API. This project is developed in Riverpod Layer-First Architecture.
 
 ## Weather API
 
